@@ -45,7 +45,7 @@ rules:
   oas3-server-not-example.com: true
   oas3-server-trailing-slash: true
   oas3-unused-component: true
-  oas3-examples-value-or-externalValue: true
+  oas3-examples-value-or-externalValue: false
   operation-operationId-unique: true
   no-script-tags-in-markdown: true
   no-eval-in-markdown: true
