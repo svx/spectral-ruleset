@@ -273,16 +273,6 @@ rules:
       functionOptions:
         notMatch: "\\b(Get|Put)\\b"
 
-  onna-ensure-properties-description:
-    description: Properties must have a description.
-    given: $..*.properties[*]
-    severity: error
-    recommended: true
-    resolved: true
-    message: "{{error}}"
-    then:
-      function: ensureSimpleDescription
-
   health-status:
     description: |-
       You must define a `/health` path that can be used to health-check the API.
