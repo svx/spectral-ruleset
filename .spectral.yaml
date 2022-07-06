@@ -1,4 +1,3 @@
-#extends: ["spectral:oas"]
 documentationUrl: https://www.example.com/docs/api-ruleset.md
 formats: ["oas3"]
 functionsDir: .spectral/
