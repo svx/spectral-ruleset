@@ -273,15 +273,15 @@ rules:
       functionOptions:
         notMatch: "\\b(Get|Put)\\b"
 
-  onna-ensure-properties-description:
-    description: Properties must have a description.
-    given: $..*.properties[*]
-    severity: error
-    recommended: true
-    resolved: true
-    message: "{{error}}"
-    then:
-      function: ensureSimpleDescription
+  # onna-ensure-properties-description:
+  #   description: Properties must have a description.
+  #   given: $..*.properties[*]
+  #   severity: error
+  #   recommended: true
+  #   resolved: true
+  #   message: "{{error}}"
+  #   then:
+  #     function: ensureSimpleDescription
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   server-lowercase:
@@ -336,19 +336,18 @@ rules:
     - oas3
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
-  status-path-defined:
-    given:
-    - "$.paths~"
-    severity: warn
-    then:
-      function: truthy
-      field: "\\/foo"
-    message: APIs MUST have a status path defined (`/health`)
+  
+  # status-path-defined:
+  #   given: $.paths.*[get,post,patch,put,delete]
+  #   severity: warn
+  #   then:
+  #     function: truthy
+  #     field: "/health"
+  #   message: APIs MUST have a status path defined (`/health`)
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   path-casing:
-    given:
-    - "$.paths"
+    given: "$.paths"
     severity: error
     then:
       function: pattern
@@ -392,6 +391,35 @@ rules:
         notMatch: "(JSON|json|XML|xml)"
       field: "@key"
     message: Paths must not have file extensions
+
+  paths-status:
+    description: |-
+      You must define a `/status` path that can be used to health-check the API.
+      Using this path avoids the arbitrary usage of a server URL for health-check
+      scope.
+
+      The `/status` endpoint should return a `application/problem+json` response
+      containing a successful status code if the service is working correctly.
+
+      The service provider is free to define the implementation logic for this path.
+    message: >-
+      The "/status" path used to health-check the API must be defined. {{error}}
+    severity: error
+    recommended: true
+    given: $.paths
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+          - type: object
+            required:
+            - "/health"
+            properties:
+              "/health":
+                type: object
+          - type: object
+            additionalProperties: false
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides  
   paths-no-http-verbs:
@@ -518,6 +546,7 @@ rules:
           - '429'
           - '431'
           - '500'
+          - '5xx'
           - '501'
           - '502'
           - '503'

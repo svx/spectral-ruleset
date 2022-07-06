@@ -1,0 +1,161 @@
+openapi: 3.0.1
+info:
+  title: Onna API
+  version: '1.0.0'
+  description: |
+    What a cool API.
+
+    ## Introduction
+
+    This is the cool intro.
+    We love this! this is really cool!
+
+    ### About this API
+
+    This thing is so cool! Amazing!
+
+    This is a wonderful example of something beautiful.
+
+    ## Requirements
+
+    Be an excellent human being!
+
+    - This
+    - That
+
+    ## Get started
+
+    This section contains information to help you get started with the API.
+
+  contact:
+    url: 'https://help.onna.com'
+    email: api@onna.com
+    name: Onna API Team
+  termsOfService: 'https://onna.com/tos'
+  license:
+    name: MIT
+    url: 'https://onna.com'
+  servers:
+    - url: 'https://api.onna.com/v1'
+      description: Production server
+
+tags:
+  - name: Utils
+    description: Example tag description, you can use Markdown here!
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      description: |
+        Check service status version and build.
+
+        The health check endpoint provides detailed information about the health
+        of the API.
+
+        If each of the components required by the API are
+        healthy, then the API is considered healthy and will return a 200 OK
+        response. If any of the components needed by the API are unhealthy,
+        then a 5XX Service Unavailable response will be provided.
+      tags:
+        - Utils
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            curl -i -X GET "https://api.onna.com/v1/health" \
+            -H "Authorization: Bearer <ACCESS_TOKEN>" \
+            -H "Content-Type: application/json"
+      responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                      python_version:
+                          description: Python version.
+                          title: Python Version
+                          type: string
+                      release_id:
+                          description: Service version.
+                          title: Release ID
+                          type: string
+                      service_id:
+                          description: Unique ID for the service.
+                          title: Service Id
+                          type: string
+                      status:
+                          description: Result of the status check as 'pass' or 'fail'.
+                          title: Status
+                          type: string
+                      version:
+                          description: API version.
+                          title: Version
+                          type: string
+                  required:
+                      - status
+                      - service_id
+                      - version
+                      - release_id
+                      - python_version
+                  example:
+                      python_version: 3.9.13
+                      release_id: 1.0.0
+                      service_id: public-api
+                      status: pass
+                      version: v1
+          '401':
+            description: "Unauthorized"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      description: "401"
+                    message:
+                      type: string
+                      description: "Unauthorized"
+                    detail:
+                      type: string
+                      description: "Wrong or missing authentication credentials"
+                    help:
+                      type: string
+                      description: "https://dev.onna.com/fundamentals/response-codes#4xx-codes"
+                examples:
+                  Error 401:
+                    value:
+                      status: "401"
+                      message: "Unauthorized"
+                      detail: "Wrong or missing authentication credentials"
+                      help: "https://dev.onna.com/fundamentals/response-codes#4xx-codes"
+          '5xx':
+            description: Unexpected error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      description: "5xx"
+                    message:
+                      type: string
+                      description: "Unexpected error"
+                    detail:
+                      type: string
+                      description: "Something went wrong, if that happen agin, please get in contact with the support team"
+                    help:
+                      type: string
+                      description: "https://dev.onna.com/fundamentals/response-codes#5xx-codes"
+                examples:
+                  Error 5XX:
+                    value:
+                      status: "5xx"
+                      message: "Unexpected error"
+                      detail: "Something went wrong, if that happen agin, please get in contact with the support team"
+                      help: "https://dev.onna.com/fundamentals/response-codes#5xx-codes"
+
