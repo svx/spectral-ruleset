@@ -283,6 +283,35 @@ rules:
     then:
       function: ensureSimpleDescription
 
+  health-status:
+    description: |-
+      You must define a `/health` path that can be used to health-check the API.
+      Using this path avoids the arbitrary usage of a server URL for health-check
+      scope.
+
+      The `/heath` endpoint should return a `application/problem+json` response
+      containing a successful status code if the service is working correctly.
+
+      The service provider is free to define the implementation logic for this path.
+    message: >-
+      The "/health" path used to health-check the API must be defined. {{error}}
+    severity: error
+    recommended: true
+    given: $.paths
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+          - type: object
+            required:
+            - "/health"
+            properties:
+              "/health":
+                type: object
+          - type: object
+            additionalProperties: false
+
   must-use-standard-http-status-codes:
     message: '{{property}} is not a standardized response code'
     description: MUST use standard HTTP status codes [150]
