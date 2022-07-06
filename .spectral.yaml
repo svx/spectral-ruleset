@@ -1,3 +1,4 @@
+extends: ["spectral:oas"]
 documentationUrl: https://www.example.com/docs/api-ruleset.md
 formats: ["oas3"]
 functionsDir: .spectral/
@@ -6,6 +7,38 @@ functions:
   - ensureNoArticlesInTitles
   - operationOrdering
   - ensureSimpleDescription
+
+aliases:
+  Request_Parameter_Query:
+    description: ''
+    targets:
+    - formats:
+      - oas3
+      given:
+      - "$.paths[*].parameters[?(@.in == 'query')].name"
+      - "$.paths[*][*].parameters[?(@.in == 'query')].name"
+      - "$.components.parameters[?(@.in == 'query')].name"
+    - formats:
+      - oas2
+      given:
+      - "$.paths[*].parameters[?(@.in == 'query')].name"
+      - "$.paths[*][*].parameters[?(@.in == 'query')].name"
+      - "$.components.parameters[?(@.in == 'query')].name"
+  Request_Parameter_Path:
+    description: ''
+    targets:
+    - formats:
+      - oas3
+      given:
+      - "$.paths[*].parameters[?(@.in == 'path')].name"
+      - "$.paths[*][*].parameters[?(@.in == 'path')].name"
+      - "$.components.parameters[?(@.in == 'path')].name"
+    - formats:
+      - oas2
+      given:
+      - "$.paths[*].parameters[?(@.in == 'path')].name"
+      - "$.paths[*][*].parameters[?(@.in == 'path')].name"
+      - "$.components.parameters[?(@.in == 'path')].name"
 
 rules:
   # Default rules of Spectral
@@ -18,10 +51,6 @@ rules:
   no-eval-in-markdown: true
   openapi-tags-alphabetical: false
   operation-description: false
-
-  # Adjust error levels of certain checks
-  operation-2xx-response: error
-  operation-tags: error
 
   # Order for endpoints should be GET, POST, PATCH, PUT, DELETE
   onna-endpoint-verb-order:
@@ -437,4 +466,63 @@ rules:
     message: Path parameters should be defined on the path level instead of the operation
       level.
 
- 
+  must-use-standard-http-status-codes:
+    message: '{{property}} is not a standardized response code'
+    description: MUST use standard HTTP status codes [150]
+    documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#150
+    severity: error
+    given: $.paths.*.*.responses.*~
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - '100'
+          - '101'
+          - '200'
+          - '201'
+          - '202'
+          - '203'
+          - '204'
+          - '205'
+          - '206'
+          - '207'
+          - '300'
+          - '301'
+          - '302'
+          - '303'
+          - '304'
+          - '305'
+          - '307'
+          - '400'
+          - '401'
+          - '402'
+          - '403'
+          - '404'
+          - '405'
+          - '406'
+          - '407'
+          - '408'
+          - '409'
+          - '410'
+          - '411'
+          - '412'
+          - '413'
+          - '414'
+          - '415'
+          - '416'
+          - '417'
+          - '422'
+          - '423'
+          - '426'
+          - '428'
+          - '429'
+          - '431'
+          - '500'
+          - '501'
+          - '502'
+          - '503'
+          - '504'
+          - '505'
+          - '511'
+          - default
+
