@@ -51,6 +51,7 @@ rules:
   no-eval-in-markdown: true
   openapi-tags-alphabetical: false
   operation-description: false
+  oas3-parameter-description: false
 
   # Order for endpoints should be GET, POST, PATCH, PUT, DELETE
   onna-endpoint-verb-order:
