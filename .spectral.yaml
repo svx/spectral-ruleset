@@ -1,5 +1,4 @@
 extends: ["spectral:oas"]
-documentationUrl: https://www.example.com/docs/api-ruleset.md
 formats: ["oas3"]
 functionsDir: .spectral/
 functions:
@@ -10,42 +9,42 @@ functions:
 
 aliases:
   Request_Parameter_Query:
-    description: ''
+    description: ""
     targets:
-    - formats:
-      - oas3
-      given:
-      - "$.paths[*].parameters[?(@.in == 'query')].name"
-      - "$.paths[*][*].parameters[?(@.in == 'query')].name"
-      - "$.components.parameters[?(@.in == 'query')].name"
-    - formats:
-      - oas2
-      given:
-      - "$.paths[*].parameters[?(@.in == 'query')].name"
-      - "$.paths[*][*].parameters[?(@.in == 'query')].name"
-      - "$.components.parameters[?(@.in == 'query')].name"
+      - formats:
+          - oas3
+        given:
+          - "$.paths[*].parameters[?(@.in == 'query')].name"
+          - "$.paths[*][*].parameters[?(@.in == 'query')].name"
+          - "$.components.parameters[?(@.in == 'query')].name"
+      - formats:
+          - oas2
+        given:
+          - "$.paths[*].parameters[?(@.in == 'query')].name"
+          - "$.paths[*][*].parameters[?(@.in == 'query')].name"
+          - "$.components.parameters[?(@.in == 'query')].name"
   Request_Parameter_Path:
-    description: ''
+    description: ""
     targets:
-    - formats:
-      - oas3
-      given:
-      - "$.paths[*].parameters[?(@.in == 'path')].name"
-      - "$.paths[*][*].parameters[?(@.in == 'path')].name"
-      - "$.components.parameters[?(@.in == 'path')].name"
-    - formats:
-      - oas2
-      given:
-      - "$.paths[*].parameters[?(@.in == 'path')].name"
-      - "$.paths[*][*].parameters[?(@.in == 'path')].name"
-      - "$.components.parameters[?(@.in == 'path')].name"
+      - formats:
+          - oas3
+        given:
+          - "$.paths[*].parameters[?(@.in == 'path')].name"
+          - "$.paths[*][*].parameters[?(@.in == 'path')].name"
+          - "$.components.parameters[?(@.in == 'path')].name"
+      - formats:
+          - oas2
+        given:
+          - "$.paths[*].parameters[?(@.in == 'path')].name"
+          - "$.paths[*][*].parameters[?(@.in == 'path')].name"
+          - "$.components.parameters[?(@.in == 'path')].name"
 
 rules:
   # Default rules of Spectral
   oas3-server-not-example.com: true
   oas3-server-trailing-slash: true
   oas3-unused-component: true
-  oas3-examples-value-or-externalValue: true
+  oas3-examples-value-or-externalValue: false
   operation-operationId-unique: true
   no-script-tags-in-markdown: true
   no-eval-in-markdown: true
@@ -135,7 +134,10 @@ rules:
     documentationUrl: https://onnapedia.atlassian.net/wiki/spaces/DX/pages/1748238347/Spectral#Summary-should-be-less-than-50-characters
     recommended: true
     type: "style"
-    given: "$.paths.*[?( @property === 'get' || @property === 'put' || @property === 'post' || @property === 'delete' || @property === 'options' || @property === 'head' || @property === 'patch' || @property === 'trace' )]"
+    given:
+      "$.paths.*[?( @property === 'get' || @property === 'put' || @property ===
+      'post' || @property === 'delete' || @property === 'options' || @property
+      === 'head' || @property === 'patch' || @property === 'trace' )]"
     then:
       - field: summary
         function: pattern
@@ -151,7 +153,8 @@ rules:
     severity: error
     recommended: true
     description: Specs should follow semantic versioning
-    message: Specs should follow semantic versioning. {{value}} is not a valid version
+    message:
+      Specs should follow semantic versioning. {{value}} is not a valid version
     given: $.info.version
     then:
       function: pattern
@@ -161,13 +164,15 @@ rules:
   # Do not use x-headers
   onna-no-x-headers:
     description: "Please do not use headers with X-"
-    message: "Headers cannot start with X-, so please find a new name for {{property}}. More: https://tools.ietf.org/html/rfc6648"
+    message:
+      "Headers cannot start with X-, so please find a new name for {{property}}.
+      More: https://tools.ietf.org/html/rfc6648"
     documentationUrl: https://onnapedia.atlassian.net/wiki/spaces/DX/pages/1748238347/Spectral#Do-not-use-x-headers
     given: "$..parameters.[?(@.in === 'header')].name"
     then:
       function: pattern
       functionOptions:
-        notMatch: '^(x|X)-'
+        notMatch: "^(x|X)-"
 
   # We always require a summary
   onna-operation-required-fields:
@@ -195,13 +200,14 @@ rules:
     severity: error
     given: $.paths[?(@property.match(/.*\/{.*}.*/))]..responses
     then:
-      - field: '404'
+      - field: "404"
         function: truthy
 
   # Titles should be in title case
   onna-info-title-case:
     description: API titles SHOULD be Title Case.
-    message: 'Title: {{value}} is not Title Case. All API titles SHOULD be Title case.'
+    message:
+      "Title: {{value}} is not Title Case. All API titles SHOULD be Title case."
     severity: warn
     given: $.info[title]
     then:
@@ -255,7 +261,7 @@ rules:
     given: $.paths
     severity: error
     then:
-      field: '@key'
+      field: "@key"
       function: pattern
       functionOptions:
         match: '^[a-z_\/{}]*$'
@@ -286,7 +292,7 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   server-lowercase:
     given:
-    - "$.servers[*].url"
+      - "$.servers[*].url"
     severity: error
     then:
       function: pattern
@@ -294,12 +300,12 @@ rules:
         match: "^[^A-Z]*$"
     message: Server URL must be lowercase
     formats:
-    - oas3
+      - oas3
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   server-has-api:
     given:
-    - "$.servers[*].url"
+      - "$.servers[*].url"
     severity: error
     then:
       function: pattern
@@ -307,12 +313,12 @@ rules:
         notMatch: "^.*\\/api/?.*"
     message: Server must have /api
     formats:
-    - oas3
+      - oas3
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   server-version:
     given:
-    - "$.servers[*].url"
+      - "$.servers[*].url"
     severity: error
     then:
       function: pattern
@@ -320,23 +326,23 @@ rules:
         match: "^.*\\/v[1-9]"
     message: Server must end with a version
     formats:
-    - oas3
+      - oas3
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   server-major-version-only:
     given:
-    - "$.servers[*].url"
-    severity: 'off'
+      - "$.servers[*].url"
+    severity: "off"
     then:
       function: pattern
       functionOptions:
         notMatch: "\\."
     message: Server should only have major versions
     formats:
-    - oas3
+      - oas3
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
-  
+
   # status-path-defined:
   #   given: $.paths.*[get,post,patch,put,delete]
   #   severity: warn
@@ -359,7 +365,7 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   resource-names-plural:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: info
     then:
       function: pattern
@@ -371,7 +377,7 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   paths-no-trailing-slash:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: error
     then:
       function: pattern
@@ -383,7 +389,7 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   paths-no-file-extensions:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: error
     then:
       function: pattern
@@ -412,19 +418,19 @@ rules:
       functionOptions:
         schema:
           oneOf:
-          - type: object
-            required:
-            - "/health"
-            properties:
-              "/health":
-                type: object
-          - type: object
-            additionalProperties: false
+            - type: object
+              required:
+                - "/health"
+              properties:
+                "/health":
+                  type: object
+            - type: object
+              additionalProperties: false
 
-  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides  
+  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   paths-no-http-verbs:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: error
     then:
       function: pattern
@@ -436,33 +442,34 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   paths-avoid-special-characters:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: warn
     then:
       function: pattern
       functionOptions:
         notMatch: "^(.*)([\\$&+,;=?@%]+)(.*)$"
-        match: ''
+        match: ""
       field: "@key"
     message: Avoid using special characters in paths
 
-  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides  
+  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   paths-no-query-params:
     given:
-    - "$.paths"
+      - "$.paths"
     severity: warn
     then:
       function: pattern
       functionOptions:
         notMatch: "\\?"
       field: "@key"
-    message: Paths should not have query parameters in them. They should be defined
+    message:
+      Paths should not have query parameters in them. They should be defined
       separately in the OpenAPI.
 
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   path-parameters-snake-case:
     given:
-    - "#Request_Parameter_Path"
+      - "#Request_Parameter_Path"
     severity: error
     then:
       function: casing
@@ -472,10 +479,10 @@ rules:
       field: name
     message: Path parameters should be snake_case and not contain digits
 
-  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides  
+  # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   query-parameters-snake-case:
     given:
-    - "#Request_Parameter_Query"
+      - "#Request_Parameter_Query"
     severity: error
     then:
       function: casing
@@ -487,15 +494,16 @@ rules:
   # https://blog.stoplight.io/consistent-api-urls-with-openapi-and-style-guides
   path-parameters-on-path-only:
     given:
-    - "$.paths[*][*].parameters[?(@.in == 'path')]"
+      - "$.paths[*][*].parameters[?(@.in == 'path')]"
     severity: warn
     then:
       function: falsy
-    message: Path parameters should be defined on the path level instead of the operation
-      level.
+    message:
+      Path parameters should be defined on the path level instead of the
+      operation level.
 
   must-use-standard-http-status-codes:
-    message: '{{property}} is not a standardized response code'
+    message: "{{property}} is not a standardized response code"
     description: MUST use standard HTTP status codes [150]
     documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#150
     severity: error
@@ -504,54 +512,53 @@ rules:
       function: enumeration
       functionOptions:
         values:
-          - '100'
-          - '101'
-          - '200'
-          - '201'
-          - '202'
-          - '203'
-          - '204'
-          - '205'
-          - '206'
-          - '207'
-          - '300'
-          - '301'
-          - '302'
-          - '303'
-          - '304'
-          - '305'
-          - '307'
-          - '400'
-          - '401'
-          - '402'
-          - '403'
-          - '404'
-          - '405'
-          - '406'
-          - '407'
-          - '408'
-          - '409'
-          - '410'
-          - '411'
-          - '412'
-          - '413'
-          - '414'
-          - '415'
-          - '416'
-          - '417'
-          - '422'
-          - '423'
-          - '426'
-          - '428'
-          - '429'
-          - '431'
-          - '500'
-          - '5xx'
-          - '501'
-          - '502'
-          - '503'
-          - '504'
-          - '505'
-          - '511'
+          - "100"
+          - "101"
+          - "200"
+          - "201"
+          - "202"
+          - "203"
+          - "204"
+          - "205"
+          - "206"
+          - "207"
+          - "300"
+          - "301"
+          - "302"
+          - "303"
+          - "304"
+          - "305"
+          - "307"
+          - "400"
+          - "401"
+          - "402"
+          - "403"
+          - "404"
+          - "405"
+          - "406"
+          - "407"
+          - "408"
+          - "409"
+          - "410"
+          - "411"
+          - "412"
+          - "413"
+          - "414"
+          - "415"
+          - "416"
+          - "417"
+          - "422"
+          - "423"
+          - "426"
+          - "428"
+          - "429"
+          - "431"
+          - "500"
+          - "5xx"
+          - "501"
+          - "502"
+          - "503"
+          - "504"
+          - "505"
+          - "511"
           - default
-
