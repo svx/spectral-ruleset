@@ -1,0 +1,12 @@
+{
+  "name": "svx-spectral-ruleset",
+  "version": "1.0.0",
+  "description": "just testing",
+  "main": "index.js",
+  "repository": "https://github.com/svx/spectral-ruleset",
+  "author": "sven <sven@so36.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.4.1"
+  }
+}
