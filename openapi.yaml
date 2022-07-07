@@ -158,7 +158,7 @@ components:
         url: https://instance.servicenow.com/api/sn_customerservice/case/f352dc9387632300d6b0a7da0acb0b60
       properties:
         assignee_group:
-          descripton: Asignee group.
+          description: Assignee group.
           title: Assignee Group
           type: string
         assignees:
@@ -190,7 +190,7 @@ components:
           title: Description
           type: string
         followers:
-          descripton: List of users follwing the ticket.
+          description: List of users following the ticket.
           items:
             type: string
           title: Followers
@@ -208,7 +208,7 @@ components:
           title: Priority
           type: string
         reactions:
-          descripton: List of reactions.
+          description: List of reactions.
           items:
             type: string
           title: Reactions
@@ -234,7 +234,7 @@ components:
           title: Subcategory
           type: string
         tags:
-          descripton: List of tags associated to the ticket in the origin.
+          description: List of tags associated to the ticket in the origin.
           items:
             type: string
           title: Tags
@@ -612,7 +612,7 @@ components:
         url: https://instance.servicenow.com/api/sn_customerservice/case/f352dc9387632300d6b0a7da0acb0b60
       properties:
         assignee_group:
-          descripton: Asignee group.
+          description: Assignee group.
           title: Assignee Group
           type: string
         assignees:
@@ -644,7 +644,7 @@ components:
           title: Description
           type: string
         followers:
-          descripton: List of users follwing the ticket.
+          description: List of users following the ticket.
           items:
             type: string
           title: Followers
@@ -670,7 +670,7 @@ components:
           title: Priority
           type: string
         reactions:
-          descripton: List of reactions.
+          description: List of reactions.
           items:
             type: string
           title: Reactions
@@ -696,7 +696,7 @@ components:
           title: Subcategory
           type: string
         tags:
-          descripton: List of tags associated to the ticket in the origin.
+          description: List of tags associated to the ticket in the origin.
           items:
             type: string
           title: Tags
