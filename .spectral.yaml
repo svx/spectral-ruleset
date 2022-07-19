@@ -57,7 +57,7 @@ rules:
 
   # Order for endpoints should be GET, POST, PATCH, PUT, DELETE
   onna-endpoint-verb-order:
-    severity: error
+    severity: info
     given: $.paths[?(@.get || @.post || @.patch || @.put || @.delete)]
     then:
       function: operationOrdering
