@@ -64,6 +64,111 @@ components:
       - title
       title: CreateConversationResourceAttributesObject
       type: object
+    CreateFileBody:
+      additionalProperties: false
+      example:
+        onna_parent_id: da72de92fef04c6a9cc5cfe018fa9cd6
+      properties:
+        comment:
+          description: Comment type of file.
+          title: Comment
+          type: string
+        creation_date:
+          description: Date when file was created.
+          title: Creation Date
+          type: string
+        creator:
+          description: User that created the file.
+          title: Creator
+          type: string
+        deleter:
+          description: User that deleted the file.
+          title: Deleter
+          type: string
+        deletion_date:
+          description: Date when file was deleted.
+          title: Deletion Date
+          type: string
+        description:
+          description: File description.
+          title: Description
+          type: string
+        mime_type:
+          description: MIME type of file.
+          title: Mime Type
+          type: string
+        name:
+          description: File name.
+          title: Name
+          type: string
+        onna_parent_id:
+          description: The ID of the parent Workspace or Folder.
+          title: Parent ID
+          type: string
+        path:
+          description: Path to file, at the origin.
+          title: Path
+          type: string
+        ref:
+          description: The Reference Number or ID for the file at the origin.
+          title: Reference
+          type: string
+        share_url:
+          description: Link or invite to share file (at origin).
+          title: Share URL
+          type: string
+        status:
+          description: 'File status: Deleted, Archived, etc.'
+          title: Status
+          type: string
+        tags:
+          description: List of tags associated to the file in the origin.
+          items:
+            type: string
+          title: Tags
+          type: array
+        type:
+          description: Type of file.
+          title: Type
+          type: string
+        update_date:
+          description: Date when the file was last updated.
+          title: Update Date
+          type: string
+        updater:
+          description: The last user to update the file.
+          title: Updater
+          type: string
+        url:
+          description: A Unique Resource Locator for the file at the origin.
+          title: URL
+          type: string
+        version:
+          description: Version.
+          title: Version
+          type: string
+      required:
+      - onna_parent_id
+      - ref
+      - url
+      title: CreateFileBody
+      type: object
+    CreateFileResponse:
+      additionalProperties: false
+      properties:
+        onna_id:
+          description: The ID for the Onna resource.
+          title: Onna Id
+          type: string
+        onna_url:
+          description: The URL for the Onna resource.
+          title: Onna Url
+          type: string
+      required:
+      - onna_id
+      - onna_url
+      title: CreateFileResponse
+      type: object
     CreateFolderRequestBody:
       additionalProperties: false
       example:
@@ -455,11 +560,11 @@ components:
           title: Id
           type: string
         name:
+          default: ''
           title: Name
           type: string
       required:
       - id
-      - name
       title: PageItemResponseBody
       type: object
     PageResponseBody:
@@ -545,6 +650,121 @@ components:
       - name
       - title
       title: ReadConversationResourceResponseBody
+      type: object
+    ReadFileResponse:
+      additionalProperties: false
+      example:
+        onna_parent_id: da72de92fef04c6a9cc5cfe018fa9cd6
+      properties:
+        comment:
+          description: Comment type of file.
+          title: Comment
+          type: string
+        creation_date:
+          description: Date when file was created.
+          title: Creation Date
+          type: string
+        creator:
+          description: User that created the file.
+          title: Creator
+          type: string
+        deleter:
+          description: User that deleted the file.
+          title: Deleter
+          type: string
+        deletion_date:
+          description: Date when file was deleted.
+          title: Deletion Date
+          type: string
+        description:
+          description: File description.
+          title: Description
+          type: string
+        extension:
+          description: File extension.
+          title: Extension
+          type: string
+        filename:
+          description: File name.
+          title: Filename
+          type: string
+        md5:
+          description: MD5 hash.
+          title: Md5
+          type: string
+        mime_type:
+          description: MIME type of file.
+          title: Mime Type
+          type: string
+        name:
+          description: File name.
+          title: Name
+          type: string
+        onna_id:
+          description: The ID for the Onna resource.
+          title: Onna Id
+          type: string
+        onna_parent_id:
+          description: The ID of the parent Workspace or Folder.
+          title: Parent ID
+          type: string
+        onna_url:
+          description: The URL for the Onna resource.
+          title: Onna Url
+          type: string
+        path:
+          description: Path to file, at the origin.
+          title: Path
+          type: string
+        ref:
+          description: The Reference Number or ID for the file at the origin.
+          title: Reference
+          type: string
+        share_url:
+          description: Link or invite to share file (at origin).
+          title: Share URL
+          type: string
+        size:
+          description: Binary size.
+          title: Size
+          type: integer
+        status:
+          description: 'File status: Deleted, Archived, etc.'
+          title: Status
+          type: string
+        tags:
+          description: List of tags associated to the file in the origin.
+          items:
+            type: string
+          title: Tags
+          type: array
+        type:
+          description: Type of file.
+          title: Type
+          type: string
+        update_date:
+          description: Date when the file was last updated.
+          title: Update Date
+          type: string
+        updater:
+          description: The last user to update the file.
+          title: Updater
+          type: string
+        url:
+          description: A Unique Resource Locator for the file at the origin.
+          title: URL
+          type: string
+        version:
+          description: Version.
+          title: Version
+          type: string
+      required:
+      - onna_parent_id
+      - ref
+      - url
+      - onna_id
+      - onna_url
+      title: ReadFileResponse
       type: object
     ReadFolderResponseBody:
       additionalProperties: false
@@ -1221,7 +1441,7 @@ info:
     ### Versioning
 
 
-    The Onna API uses versioning to ensure that your client doesn''t break.
+    The Onna API uses versioning to ensure that your client does not break.
 
     The version is declared in the URL so that you can lock to a specific one by prefix
     the URL.
@@ -1778,10 +1998,213 @@ paths:
       summary: Create Resource
       tags:
       - Resources
+  /resources/files:
+    post:
+      description: Create a file resource.
+      operationId: createFile
+      parameters:
+      - description: 'The Authorization header contains your access token as a [Bearer
+          Token](https://oauth.net/2/bearer-tokens/):
+
+
+          ```bash
+
+          Authorization: Bearer ACCESS_TOKEN
+
+          ```
+
+
+          You can obtain an access token through an OAuth flow such as the client
+          credentials flow. For more information on obtaining an access token, see
+          ["Obtaining an access token"](http://example.com).'
+        in: header
+        name: authorization
+        required: false
+        schema:
+          description: 'The Authorization header contains your access token as a [Bearer
+            Token](https://oauth.net/2/bearer-tokens/):
+
+
+            ```bash
+
+            Authorization: Bearer ACCESS_TOKEN
+
+            ```
+
+
+            You can obtain an access token through an OAuth flow such as the client
+            credentials flow. For more information on obtaining an access token, see
+            ["Obtaining an access token"](http://example.com).'
+          title: Authorization
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFileBody'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFileResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create File
+      tags:
+      - Resources
+      - Files
+  /resources/files/{id}:
+    delete:
+      description: Delete the file.
+      operationId: deleteFile
+      parameters:
+      - description: Unique ID of the folder.
+        in: path
+        name: id
+        required: true
+        schema:
+          description: Unique ID of the folder.
+          title: ID
+          type: string
+      - description: 'The Authorization header contains your access token as a [Bearer
+          Token](https://oauth.net/2/bearer-tokens/):
+
+
+          ```bash
+
+          Authorization: Bearer ACCESS_TOKEN
+
+          ```
+
+
+          You can obtain an access token through an OAuth flow such as the client
+          credentials flow. For more information on obtaining an access token, see
+          ["Obtaining an access token"](http://example.com).'
+        in: header
+        name: authorization
+        required: false
+        schema:
+          description: 'The Authorization header contains your access token as a [Bearer
+            Token](https://oauth.net/2/bearer-tokens/):
+
+
+            ```bash
+
+            Authorization: Bearer ACCESS_TOKEN
+
+            ```
+
+
+            You can obtain an access token through an OAuth flow such as the client
+            credentials flow. For more information on obtaining an access token, see
+            ["Obtaining an access token"](http://example.com).'
+          title: Authorization
+          type: string
+      responses:
+        '204':
+          description: Successful Response
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonApiErrorsResponseBody'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonApiErrorsResponseBody'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonApiErrorsResponseBody'
+          description: Not Found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonApiErrorsResponseBody'
+          description: Unprocessable Entity
+      summary: Delete File
+      tags:
+      - Resources
+      - Files
+    get:
+      description: Retrieve a file resource.
+      operationId: retrieveFile
+      parameters:
+      - description: Unique ID of the folder.
+        in: path
+        name: id
+        required: true
+        schema:
+          description: Unique ID of the folder.
+          title: ID
+          type: string
+      - description: 'The Authorization header contains your access token as a [Bearer
+          Token](https://oauth.net/2/bearer-tokens/):
+
+
+          ```bash
+
+          Authorization: Bearer ACCESS_TOKEN
+
+          ```
+
+
+          You can obtain an access token through an OAuth flow such as the client
+          credentials flow. For more information on obtaining an access token, see
+          ["Obtaining an access token"](http://example.com).'
+        in: header
+        name: authorization
+        required: false
+        schema:
+          description: 'The Authorization header contains your access token as a [Bearer
+            Token](https://oauth.net/2/bearer-tokens/):
+
+
+            ```bash
+
+            Authorization: Bearer ACCESS_TOKEN
+
+            ```
+
+
+            You can obtain an access token through an OAuth flow such as the client
+            credentials flow. For more information on obtaining an access token, see
+            ["Obtaining an access token"](http://example.com).'
+          title: Authorization
+          type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadFileResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Read File
+      tags:
+      - Resources
+      - Files
   /resources/tickets:
     post:
       description: Create a ticket resource.
-      operationId: create_ticket_resources_tickets_post
+      operationId: createTicket
       parameters:
       - description: 'The Authorization header contains your access token as a [Bearer
           Token](https://oauth.net/2/bearer-tokens/):
@@ -1843,7 +2266,7 @@ paths:
   /resources/tickets/{id}:
     get:
       description: Retrieve a ticket resource.
-      operationId: read_ticket_resources_tickets__id__get
+      operationId: retrieveTicket
       parameters:
       - description: Unique ID of the folder.
         in: path
@@ -1911,6 +2334,7 @@ paths:
       - in: path
         name: id
         required: true
+        description: My cool stuff
         schema:
           title: Id
           type: string
@@ -2138,10 +2562,10 @@ paths:
       summary: Update Resource
       tags:
       - Resources
-  /resources/{id}/file:
+  /upload/{id}/tus:
     head:
       description: HEAD a resource's file, for use in the TUS protocol.
-      operationId: head_resource_file_resumable_upload_resources__id__file_head
+      operationId: head_resource_file_resumable_upload_upload__id__tus_head
       parameters:
       - in: path
         name: id
@@ -2227,7 +2651,7 @@ paths:
       - Resources
     options:
       description: OPTION a resource's file. This is primarily used in the TUS protocol.
-      operationId: options_resource_file_resources__id__file_options
+      operationId: options_resource_file_upload__id__tus_options
       parameters:
       - in: path
         name: id
@@ -2301,7 +2725,7 @@ paths:
       - Resources
     patch:
       description: TUS resumable upload PATCH endpoint.
-      operationId: resume_resource_file_upload_resources__id__file_patch
+      operationId: resume_resource_file_upload_upload__id__tus_patch
       parameters:
       - in: path
         name: id
@@ -2390,7 +2814,7 @@ paths:
         \ endpoint.\n\nThe \"created\" file has the same URL as the current endpoint,\
         \ since a resource can only have a single file.\nGuillotina uses the same\
         \ pattern:\n    https://guillotina.readthedocs.io/en/latest/training/api.html#uploading-files-with-tus"
-      operationId: create_resource_file_resumable_upload_resources__id__file_post
+      operationId: create_resource_file_resumable_upload_upload__id__tus_post
       parameters:
       - in: path
         name: id
@@ -2475,7 +2899,7 @@ paths:
       tags:
       - Resources
     put:
-      operationId: create_resource_file_single_request_resources__id__file_put
+      operationId: create_resource_file_single_request_upload__id__tus_put
       parameters:
       - in: path
         name: id
@@ -2986,6 +3410,10 @@ tags:
     This collection includes all the endpoints that enable you to handle folders,
     such as creating, retrieving, or deleting them.'
   name: Folders
+- description: Everything related to files
+  name: Files
+- description: Everything related to tickets
+  name: Tickets
 - description: 'Resources are representations of data and can assume various formats,
     depending on the application they comes from or their file type.
 

@@ -53,6 +53,8 @@ rules:
   operation-description: false
   oas3-parameter-description: false
 
+  oas3-valid-schema-example: info
+
   # Order for endpoints should be GET, POST, PATCH, PUT, DELETE
   onna-endpoint-verb-order:
     severity: error

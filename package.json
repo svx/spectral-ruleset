@@ -7,6 +7,8 @@
   "author": "sven <sven@so36.net>",
   "license": "MIT",
   "devDependencies": {
-    "@stoplight/spectral-cli": "^6.4.1"
+    "@ocular-d/vale-bin": "^1.10.32",
+    "@stoplight/spectral-cli": "^6.4.1",
+    "cspell": "^6.2.3"
   }
 }
